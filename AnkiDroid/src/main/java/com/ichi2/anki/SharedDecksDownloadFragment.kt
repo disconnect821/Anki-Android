@@ -34,6 +34,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -116,7 +117,8 @@ class SharedDecksDownloadFragment : Fragment(R.layout.fragment_shared_decks_down
          * https://ankiweb.net/svc/shared/download-deck/1104981491?t=eyJvcCI6InNkZCIsImlhdCI6MTc0MTUyNjQ0OSwianYiOjF9.hr4a_G-LAqMVBAp5_95l60_2lEtYxodGl4DrJ6dT2WI
          * returns the deck's id, in this case "1104981491" if it can be found.
          */
-        private fun getDeckIdFromDownloadURL(downloadUrl: String) =
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun getDeckIdFromDownloadURL(downloadUrl: String) =
             deckIdRegex
                 .find(downloadUrl)
                 ?.groups
@@ -176,7 +178,8 @@ class SharedDecksDownloadFragment : Fragment(R.layout.fragment_shared_decks_down
      * returns the deck's page URL such as https://ankiweb.net/shared/info/1104981491
      * If the deck id can't be found, returns the ankiweb's shared deck's main page.
      */
-    private fun getDeckPageUri(deckDownloadURL: String): String {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getDeckPageUri(deckDownloadURL: String): String {
         val deckId = getDeckIdFromDownloadURL(deckDownloadURL)
         return if (deckId != null) {
             resources.getString(R.string.shared_deck_info) + deckId
